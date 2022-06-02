@@ -14,6 +14,7 @@ function commands(client) {
             options: command.options ? command.options : []
         });
     });
+    slashCommands(); // Registering slash commands
 
     // Load commands (message)
     fs.readdirSync('./commands/message').forEach(file => {
@@ -34,9 +35,10 @@ const config = require('../config.js');
  * This is handlers for registering Slash Commands
  * */
 
-async function slashCommands(client) {
+async function slashCommands() {
     const rest = new REST({ version: '10' }).setToken(config.token);
     try {
+        console.log('Slash Commands: Refreshing...');
         await rest.put(
             Routes.applicationGuildCommands(
                 config.slashRegister.clientId,
@@ -47,8 +49,6 @@ async function slashCommands(client) {
     catch(error) {
         return console.error('Slash Command Register:', error);
     }
-    console.log('Slash Commands: Registered.');
-    client.application.commands.set(slash_commands, config.slashRegister.guildId);
     console.log('Slash Commands: Reloaded...');
 };
 
