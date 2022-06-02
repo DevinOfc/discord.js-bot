@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({
     allowedMentions: {
-        parse: ['users', 'roles'],
+        parse: ['users', 'roles', 'everyone'],
         repliedUser: false
     },
     intents: [
