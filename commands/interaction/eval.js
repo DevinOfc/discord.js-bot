@@ -13,8 +13,6 @@ module.exports = {
         const embed = new Discord.EmbedBuilder();
         const code = interaction.options.getString('code');
         try{
-            await interaction.deferReply();
-
             let evaled = await eval(code);
             if (typeof evaled !== "string")
                 evaled = await require("util").inspect(evaled, { depth: 0 });
@@ -23,7 +21,12 @@ module.exports = {
                 embed.setDescription("```js\n" + output + "```")
                 embed.setColor('Blue');
 
-            await interaction.editReply({ embeds: [embed] });
+            if(interaction.deferred) {
+                interaction.followUp({ embeds: [embed] });
+            }
+            else{
+                interaction.reply({ embeds: [embed] });
+            };
         } 
         catch (error){
             error = clean(error);
@@ -31,7 +34,12 @@ module.exports = {
                 embed.setTitle("Error!")
                 embed.setColor("Red");
 
-            await interaction.editReply({ embeds: [embed] });
+            if(interaction.deferred) {
+                interaction.followUp({ embeds: [embed] });
+            }
+            else{
+                interaction.reply({ embeds: [embed] });
+            }
         };
     }
 };
