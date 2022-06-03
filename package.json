@@ -8,7 +8,8 @@
         "@napi-rs/canvas": "^0.1.22",
         "canvas-constructor": "^6.0.1-next.041676c.0",
         "discord-api-types": "^0.33.2",
-        "discord.js": "^14.0.0-dev.1653480262-68d5169"
+        "discord.js": "^14.0.0-dev.1653480262-68d5169",
+        "undici": "^5.4.0"
     },
     "scripts": {
         "start": "node index.js"
