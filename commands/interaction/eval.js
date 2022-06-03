@@ -21,7 +21,7 @@ module.exports = {
                 embed.setDescription("```js\n" + output + "```")
                 embed.setColor('Blue');
 
-            if(interaction.deferred) {
+            if(interaction.replied) {
                 interaction.followUp({ embeds: [embed] });
             }
             else{
@@ -34,7 +34,7 @@ module.exports = {
                 embed.setTitle("Error!")
                 embed.setColor("Red");
 
-            if(interaction.deferred) {
+            if(interaction.replied) {
                 interaction.followUp({ embeds: [embed] });
             }
             else{
