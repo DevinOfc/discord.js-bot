@@ -41,7 +41,7 @@ function createInteractionCollector(m) {
         time: 60000
     });
     collector.on('collect', async(interaction) => {
-        await interaction.deferReply({ ephemeral: true, fetchReply: true });
+        await interaction.deferReply({ ephemeral: true });
         collector.resetTimer({ time: 60000, idle: 60000 });
         const value = interaction.customId;
 
@@ -58,8 +58,7 @@ function createInteractionCollector(m) {
             });
             embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             const actionRow = new ActionRowBuilder().addComponents([menu]);
-            i.followUp({ embeds:[embed], components: [actionRow], ephemeral: true });
-            interaction.deferUpdate();
+            interaction.reply({ embeds:[embed], components: [actionRow] }).then(i => collector.collect(i.interaction));
         }
         else if(interaction.isSelectMenu()){
             interaction.deferUpdate();
