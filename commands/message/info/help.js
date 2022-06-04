@@ -51,15 +51,15 @@ function createInteractionCollector(m) {
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
                 .setCustomId(value)
-                .setPlaceholder('Select spesific commands by name for more information')
-                .addOptions([]);
+                .setPlaceholder('Select spesific commands by name for more information');
+            const menuOptions = [];
             commandData.forEach(command => {
-                menu.options.push({ label:  command.name, description: command.description, value: command.name });
+                menuOptions.push({ label:  command.name, description: command.description, value: command.name });
             });
             embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
+            menu.addOptions(menuOptions);
             const actionRow = new ActionRowBuilder().addComponents([menu]);
             interaction.editReply({ embeds:[embed], components: [actionRow] });
-            interaction.fetchReply().then(i => collector.collect(i.interaction));
         }
         else if(interaction.isSelectMenu()){
             interaction.deferUpdate();
@@ -69,7 +69,7 @@ function createInteractionCollector(m) {
         if(!m) return;
         const newEmbed = EmbedBuilder.from(m.embeds[0]);
         newEmbed.setColor('LightGrey');
-        const oldActionRow = ActionRowBuilder.from(m.components[0]);
+        const oldActionRow = m.components[0];
         const newActionRow = new ActionRowBuilder();
         const newButtons = [];
         oldActionRow.components[0].forEach(oldButton => {

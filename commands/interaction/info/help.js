@@ -55,7 +55,7 @@ function createInteractionCollector(i) {
         if(!i) return;
         const newEmbed = EmbedBuilder.from(i.embeds[0]);
         newEmbed.setColor('LightGrey');
-        const oldActionRow = ActionRowBuilder.from(i.components[0]);
+        const oldActionRow = i.components[0];
         const newActionRow = new ActionRowBuilder();
         const newButtons = [];
         oldActionRow.components[0].forEach(oldButton => {
