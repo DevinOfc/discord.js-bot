@@ -51,7 +51,7 @@ function createInteractionCollector(m) {
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
                 .setCustomId(value)
-                .setPlaceholder('Select spesific commands by name for more information');
+                .setPlaceholder('Select spesific commands for information');
             const menuOptions = [];
             commandData.forEach(command => {
                 menuOptions.push({ label:  command.name, description: command.description, value: command.name });
@@ -60,9 +60,6 @@ function createInteractionCollector(m) {
             menu.addOptions(menuOptions);
             const actionRow = new ActionRowBuilder().addComponents([menu]);
             interaction.editReply({ embeds:[embed], components: [actionRow] });
-        }
-        else if(interaction.isSelectMenu()){
-            interaction.deferUpdate();
         }
     });
     collector.on('end', () => {
