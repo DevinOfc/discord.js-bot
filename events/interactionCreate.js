@@ -25,13 +25,13 @@ async function selectMenuInteraction(client, interaction) {
         const categoryName = command.category.charAt(0).toUpperCase() + command.category.slice(1);
         const embed = new EmbedBuilder()
             .setColor('Blurple')
-            .setAuthor({ name: `${commandCategoryEmoji[command.category]} ${categoryName}`})
             .setTitle(command.name)
             .setDescription(`*${command.description}*`)
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/microsoft/310/information_2139-fe0f.png')
             .addFields([
                 { name: '\u200B', value: '\u200B' }
-            ]);
+            ])
+            .setFooter({ text: `${commandCategoryEmoji[command.category]} ${categoryName} Commands` })
         await interaction.followUp({ embeds: [embed], ephemeral: true });
     };
 };

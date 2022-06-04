@@ -10,7 +10,8 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFields([]);
+            .setFields([])
+            .setFooter({ text: 'Clicked buttons below for more help commands information' });
         const categories = client.commands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
             const commands = client.commands.filter(cmd => cmd.category == category);
