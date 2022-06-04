@@ -5,7 +5,7 @@ function commands(client) {
 
     client.slashCommands.categories = [];
     // Load slash commands (interaction)
-    fs.readdirSync('./commands/interaction').forEach(folder => {
+    fs.readdirSync('./commands/interaction').filter(f => !f.includes('.')).forEach(folder => {
         client.slashCommands.categories.push(folder);
         const commandFiles = fs.readdirSync(`./commands/interaction/${folder}`);
         for (const file of commandFiles) {
@@ -26,7 +26,7 @@ function commands(client) {
 
     client.commands.categories = [];
     // Load commands (message)
-    fs.readdirSync('./commands/message').forEach(folder => {
+    fs.readdirSync('./commands/message').filter(f => !f.includes('.')).forEach(folder => {
         client.commands.categories.push(folder);
         const commandFiles = fs.readdirSync(`./commands/message/${folder}`);
         for (const file of commandFiles) {
