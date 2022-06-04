@@ -54,9 +54,9 @@ function createInteractionCollector(m) {
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandData = client.commands.filter(cmd => cmd.category === value);
             if(commandData.size === 0) {
-                if(value == 'help-menu-delete') m.delete().catch(_=>void 0);
+                if(value == 'help-menu-delete') collector.stop('deleted');
                 interaction.editReply({ content: '✅ | Message has been deleted!' });
-                return (m=null);
+                return null;
             };
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
@@ -72,8 +72,9 @@ function createInteractionCollector(m) {
             interaction.editReply({ embeds:[embed], components: [actionRow] });
         }
     });
-    collector.on('end', () => {
+    collector.on('end', (collected, reason) => {
         if(!m) return;
+        if(reason=='deleted') return m.delete().catch(_=>void 0)
         const oldActionRow = m.components[0];
         const newActionRow = new ActionRowBuilder();
         const newButtons = [];
