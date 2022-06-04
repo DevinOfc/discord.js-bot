@@ -1,6 +1,6 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
 const categoryEmoji = {
-    information: 'ℹ️'
+    info: 'ℹ️'
 };
 
 module.exports = {
