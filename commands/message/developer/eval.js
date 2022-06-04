@@ -4,7 +4,7 @@ module.exports = {
     name: "eval",
     description: "Evalue JavaScript Code",
     usage: "<string>",
-    developerOnly: true,
+    private: true,
     execute: async (client, message) => {
         const embed = new Discord.EmbedBuilder();
 

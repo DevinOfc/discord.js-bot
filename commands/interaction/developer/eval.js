@@ -9,6 +9,7 @@ module.exports = {
         required: true,
         type: Discord.ApplicationCommandOptionType.String
     }],
+    private: true,
     execute: async (client, interaction) => {
         const embed = new Discord.EmbedBuilder();
         const code = interaction.options.getString('code');

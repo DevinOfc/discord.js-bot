@@ -11,6 +11,8 @@ module.exports = (client, message) => {
 
     const command = client.commands.get(cmd);
     if (!command) return;
+    if (command.category == 'developer' && message.author.id !== client.config.developerId) return;
+    if (command.private && message.author.id !== client.config.developerId) return;
     try {
         command.execute(client, message);
     }

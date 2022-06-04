@@ -13,6 +13,7 @@ function commands(client) {
             if(!command) throw new Error(`cannot set commands ${file} is invalid!`);
             if(!command.name) command.name = file.split('.')[0];
             command.category = folder.split('.')[0];
+            command.private = Boolean(command.private);
             client.slashCommands.set(command.name, command);
             slash_commands.push({
                 name: command.name,
@@ -33,6 +34,7 @@ function commands(client) {
             if (!command) throw new Error(`cannot set commands ${file} is invalid!`);
             if (!command.name) command.name = file.split('.')[0];
             command.category = folder.split('.')[0];
+            command.private = Boolean(command.private);
             client.commands.set(command.name, command);
         };
     });
