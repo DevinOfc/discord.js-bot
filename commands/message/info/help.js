@@ -54,7 +54,6 @@ function createInteractionCollector(m) {
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandData = client.commands.filter(cmd => cmd.category === value);
             if(commandData.size === 0) {
-                await interaction.deferUpdate();
                 if(value == 'help-menu-delete') m.delete().catch(_=>void 0);
                 return (m=null);
             };
