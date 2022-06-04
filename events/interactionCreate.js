@@ -20,7 +20,7 @@ module.exports = (client, interaction) => {
 async function selectMenuInteraction(client, interaction) {
     await interaction.deferUpdate();
     if (client.slashCommands.categories.includes(interaction.customId)) {
-        const command = client.commands.cache.get(interaction.values[0]);
+        const command = client.slashCommands.get(interaction.values[0]);
         if (!command) return interaction.followUp({ content: `Cannot find the commands!`, ephemeral: true });
         const categoryName = command.category.charAt(0).toUpperCase() + command.category.slice(1);
         const embed = new EmbedBuilder()
