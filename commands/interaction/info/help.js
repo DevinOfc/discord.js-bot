@@ -47,7 +47,7 @@ function createInteractionCollector(i) {
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandList = client.slashCommands.filter(cmd => cmd.category === value).map(command => `\`${command.name}\``).join(', ');
-            embed.setTitle(`${categoryEmoji[value]} ${commandName} Commands`).setDescription(commandList);
+            embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             interaction.editReply({ embeds:[embed] });
         }
     });

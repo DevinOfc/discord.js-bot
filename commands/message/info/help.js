@@ -18,7 +18,7 @@ module.exports = {
             const commands = client.commands.filter(cmd => cmd.category == category);
             const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
             const commandList = commands.map(command => `\`${command.name}\``).join(', ');
-            embed.data.fields.push({ name: `${categoryName} Commands`, value: commandList });
+            embed.data.fields.push({ name: `${categoryEmoji[category]} ${categoryName} Commands`, value: commandList });
             buttons.push(
                 new ButtonBuilder()
                     .setCustomId(category)
@@ -48,7 +48,7 @@ function createInteractionCollector(m) {
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandList = client.commands.filter(cmd => cmd.category === value).map(command => `\`${command.name}\``).join(', ');
-            embed.setTitle(`${categoryEmoji[value]} ${commandName} Commands`).setDescription(commandList);
+            embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             interaction.editReply({ embeds:[embed] });
         }
     });
