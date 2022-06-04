@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'Clicked buttons of category emoji below for more commands spesific information' })
+            .setFooter({ text: 'You also can choose the buttons below | Click ❌ for exit' })
             .setFields([]);
         const categories = client.slashCommands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
@@ -41,7 +41,7 @@ function createInteractionCollector(i) {
     const commands = Array.from(client.slashCommands.keys());
     const embed = new EmbedBuilder().setColor('Blurple');
     const collector = i.createMessageComponentCollector({
-        filter: (interaction) => category.includes(interaction.customId) || commands.includes(interaction.customId),
+        filter: (interaction) => category.includes(interaction.customId) || commands.includes(interaction.customId) || interaction.customId === 'help-menu-delete',
         time: 60000
     });
     collector.on('collect', async(interaction) => {
