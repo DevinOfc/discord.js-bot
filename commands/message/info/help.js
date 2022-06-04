@@ -71,13 +71,9 @@ function createInteractionCollector(m) {
         newEmbed.setColor('LightGrey');
         const oldActionRow = m.components[0];
         const newActionRow = new ActionRowBuilder();
-        const newButtons = [];
-        oldActionRow.components[0].forEach(oldButton => {
-            oldButton = ButtonBuilder.from(oldButton);
-            oldButton.setDisabled(true);
-            newButtons.push(oldButton);
-        });
-        newActionRow.addComponents(newButton);
+        const newButtons = ButtonBuilder.from(oldActionRow.components[0]);
+        newButtons.setDisabled(true);
+        newActionRow.addComponents([newButtons]);
         m.edit({ embeds: [newEmbed], components: [newActionRow] }).catch(_=>void 0);
     });
     return collector;
