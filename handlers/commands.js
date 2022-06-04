@@ -9,7 +9,7 @@ function commands(client) {
         client.slashCommands.categories.push(folder);
         const commandFiles = fs.readdirSync(`./commands/interaction/${folder}`);
         for (const file of commandFiles) {
-            const command = require(`../commands/interaction/${file}`);
+            const command = require(`../commands/interaction/${folder}/${file}`);
             if(!command) throw new Error(`cannot set commands ${file} is invalid!`);
             if(!command.name) command.name = file.split('.')[0];
             command.category = folder.split('.')[0];
@@ -29,7 +29,7 @@ function commands(client) {
         client.commands.categories.push(folder);
         const commandFiles = fs.readdirSync(`./commands/message/${folder}`);
         for (const file of commandFiles) {
-            const command = require(`../commands/message/${file}`);
+            const command = require(`../commands/message/${folder}/${file}`);
             if (!command) throw new Error(`cannot set commands ${file} is invalid!`);
             if (!command.name) command.name = file.split('.')[0];
             command.category = folder.split('.')[0];
