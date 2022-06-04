@@ -58,7 +58,8 @@ function createInteractionCollector(m) {
             });
             embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             const actionRow = new ActionRowBuilder().addComponents([menu]);
-            interaction.reply({ embeds:[embed], components: [actionRow] }).then(i => collector.collect(i.interaction));
+            interaction.editReply({ embeds:[embed], components: [actionRow] });
+            interaction.fetchReply().then(i => collector.collect(i.interaction));
         }
         else if(interaction.isSelectMenu()){
             interaction.deferUpdate();
@@ -66,11 +67,16 @@ function createInteractionCollector(m) {
     });
     collector.on('end', () => {
         if(!m) return;
-        const newEmbed = m.embeds[0].setColor('LightGrey');
-        const oldActionRow = m.components[0];
+        const newEmbed = EmbedBuilder.from(m.embeds[0]);
+        newEmbed.setColor('LightGrey');
+        const oldActionRow = ActionRowBuilder.from(m.components[0]);
         const newActionRow = new ActionRowBuilder();
         const newButtons = [];
-        oldActionRow.components[0].forEach(oldButton => newButtons.push(oldButton.setDisabled(true)));
+        oldActionRow.components[0].forEach(oldButton => {
+            oldButton = ButtonBuilder.from(oldButton);
+            oldButton.setDisabled(true);
+            newButtons.push(oldButton);
+        });
         newActionRow.addComponents(newButton);
         m.edit({ embeds: [newEmbed], components: [newActionRow] }).catch(_=>void 0);
     });
