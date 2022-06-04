@@ -55,6 +55,7 @@ function createInteractionCollector(m) {
             const commandData = client.commands.filter(cmd => cmd.category === value);
             if(commandData.size === 0) {
                 if(value == 'help-menu-delete') m.delete().catch(_=>void 0);
+                interaction.editReply({ content: '✅ | Message has been deleted!' });
                 return (m=null);
             };
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
