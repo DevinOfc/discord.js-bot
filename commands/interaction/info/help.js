@@ -53,14 +53,12 @@ function createInteractionCollector(i) {
     });
     collector.on('end', () => {
         if(!i) return;
-        const newEmbed = EmbedBuilder.from(i.embeds[0]);
-        newEmbed.setColor('LightGrey');
         const oldActionRow = i.components[0];
         const newActionRow = new ActionRowBuilder();
         const newButtons = ButtonBuilder.from(oldActionRow.components[0]);
         newButtons.setDisabled(true);
         newActionRow.addComponents([newButtons]);
-        i.edit({ embeds: [newEmbed], components: [newActionRow] }).catch(_=>void 0);
+        i.edit({ components: [newActionRow] }).catch(_=>void 0);
     });
     return collector;
 };
