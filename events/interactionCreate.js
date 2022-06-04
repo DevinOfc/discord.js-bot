@@ -14,9 +14,9 @@ module.exports = (client, interaction) => {
     }
 };
 
-function selectMenuInteraction(client, interaction) {
+async function selectMenuInteraction(client, interaction) {
     await interaction.deferUpdate({ ephemeral: true });
-    interaction.editReply(`Received select menu interaction of '${interaction.customId}'`);
+    await interaction.editReply(`Received select menu interaction of '${interaction.customId}'`);
     const values = interaction.values;
     if (values[0]) interaction.followUp(`Received clicked the select menu ${values[0]}`);
 };
