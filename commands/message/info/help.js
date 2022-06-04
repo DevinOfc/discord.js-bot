@@ -41,19 +41,32 @@ function createInteractionCollector(m) {
         time: 60000
     });
     collector.on('collect', async(interaction) => {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ ephemeral: true, fetchReply: true });
         collector.resetTimer({ time: 60000, idle: 60000 });
         const value = interaction.customId;
 
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
-            const commandList = client.commands.filter(cmd => cmd.category === value).map(command => `\`${command.name}\``).join(', ');
+            const commandData = client.commands.filter(cmd => cmd.category === value);
+            const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
+            const menu = new SelectMenuBuilder()
+                .setCustomId(value)
+                .setPlaceholder('Select spesific commands by name for more information')
+                .addOptions([]);
+            commandData.forEach(command => {
+                menu.options.push({ label:  command.name, description: command.description, value: command.name });
+            });
             embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
-            interaction.editReply({ embeds:[embed] });
+            const actionRow = new ActionRowBuilder().addComponents([menu]);
+            i.followUp({ embeds:[embed], components: [actionRow], ephemeral: true });
+            interaction.deferUpdate();
+        }
+        else if(interaction.isSelectMenu()){
+            interaction.deferUpdate();
         }
     });
     collector.on('end', () => {
-        if(!i) return;
+        if(!m) return;
         const newEmbed = m.embeds[0].setColor('LightGrey');
         const oldActionRow = m.components[0];
         const newActionRow = new ActionRowBuilder();
