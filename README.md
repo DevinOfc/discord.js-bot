@@ -1,4 +1,4 @@
-# discord.js-bot
+# `discord.js-bot`
 An handler & sample bot using library discord.js v14
 
 ## Requirements
