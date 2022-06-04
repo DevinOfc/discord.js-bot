@@ -56,7 +56,7 @@ function createInteractionCollector(m) {
             if(!commandData) {
                 await interaction.deferUpdate();
                 if(value == 'help-menu-delete') m.delete().catch(_=>void 0);
-                return;
+                return (m=null);
             };
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
@@ -76,9 +76,13 @@ function createInteractionCollector(m) {
         if(!m) return;
         const oldActionRow = m.components[0];
         const newActionRow = new ActionRowBuilder();
-        const newButtons = ButtonBuilder.from(oldActionRow.components[0]);
-        newButtons.setDisabled(true);
-        newActionRow.addComponents([newButtons]);
+        const newButtons = [];
+        oldActionRow.components.forEach(oldButton => {
+            oldButton = ButtonBuilder.from(oldButton);
+            oldButton.setDisabled(true);
+            newButtons.push(oldButton);
+        });
+        newActionRow.addComponents(newButtons);
         m.edit({ components: [newActionRow] }).catch(_=>void 0);
     });
     return collector;
