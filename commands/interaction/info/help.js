@@ -10,8 +10,8 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFields([])
-            .setFooter({ text: 'Clicked buttons below for more help commands information' });
+            .setFooter({ text: 'More spesific? Click the buttons of category emoji below...' })
+            .setFields([]);
         const categories = client.slashCommands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
             const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
