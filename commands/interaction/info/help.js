@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'More spesific? Click the buttons of category emoji below...' })
+            .setFooter({ text: 'Clicked buttons of category emoji below for more commands spesific information' })
             .setFields([]);
         const categories = client.slashCommands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
@@ -24,6 +24,12 @@ module.exports = {
                     .setStyle('Secondary')
             );
         };
+        buttons.push(
+            new ButtonBuilder()
+                .setCustomId('help-menu-delete')
+                .setEmoji('❌')
+                .setStyle('Danger')
+        );
         const actionRow = new ActionRowBuilder().addComponents(buttons);
         interaction.reply({ embeds: [embed], components: [actionRow], fetchReply: true }).then(i => createInteractionCollector(i));
     }
@@ -46,6 +52,11 @@ function createInteractionCollector(i) {
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandData = client.commands.filter(cmd => cmd.category === value);
+            if(!commandData) {
+                await interaction.deferUpdate();
+                if(value == 'help-menu-delete') i.delete().catch(_=>void 0);
+                return;
+            };
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
                 .setCustomId(value)

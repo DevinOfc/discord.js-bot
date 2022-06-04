@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'More spesific? Click the buttons of category emoji below...' })
+            .setFooter({ text: 'Clicked buttons of category emoji below for more commands spesific information' })
             .setFields([]);
         const categories = client.commands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
@@ -25,6 +25,12 @@ module.exports = {
                     .setStyle('Secondary')
             );
         };
+        buttons.push(
+            new ButtonBuilder()
+                .setCustomId('help-menu-delete')
+                .setEmoji('❌')
+                .setStyle('Danger')
+        );
         const actionRow = new ActionRowBuilder().addComponents(buttons);
         message.reply({ embeds: [embed], components: [actionRow] }).then(m => createInteractionCollector(m));
     }
@@ -47,10 +53,15 @@ function createInteractionCollector(m) {
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandData = client.commands.filter(cmd => cmd.category === value);
+            if(!commandData) {
+                await interaction.deferUpdate();
+                if(value == 'help-menu-delete') m.delete().catch(_=>void 0);
+                return;
+            };
             const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
             const menu = new SelectMenuBuilder()
                 .setCustomId(value)
-                .setPlaceholder('Select spesific commands for information');
+                .setPlaceholder('Select commands for spesific information');
             const menuOptions = [];
             commandData.forEach(command => {
                 menuOptions.push({ label:  command.name, description: command.description, value: command.name });

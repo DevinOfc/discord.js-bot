@@ -26,7 +26,7 @@ async function selectMenuInteraction(client, interaction) {
         const embed = new EmbedBuilder()
             .setColor('Blurple')
             .setTitle(command.name)
-            .setDescription(`*${command.description}*`)
+            .setDescription(command.description)
             .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/microsoft/310/information_2139-fe0f.png')
             .addFields([
                 { name: '\u200B', value: '\u200B' }
