@@ -1,3 +1,6 @@
+const { EmbedBuilder } = require('discord.js');
+const commandCategoryEmoji = require('../commands/interaction/emoji.json');
+
 module.exports = (client, interaction) => {
     if (!interaction.isChatInputCommand()) {
         if (interaction.isSelectMenu()) selectMenuInteraction(client, interaction);
@@ -15,8 +18,20 @@ module.exports = (client, interaction) => {
 };
 
 async function selectMenuInteraction(client, interaction) {
-    await interaction.deferUpdate({ ephemeral: true });
-    await interaction.editReply(`Received select menu interaction of '${interaction.customId}'`);
-    const values = interaction.values;
-    if (values[0]) interaction.followUp(`Received clicked the select menu ${values[0]}`);
+    await interaction.deferUpdate();
+    if (client.slashCommands.categories.includes(interaction.customId)) {
+        const command = client.commands.cache.get(interaction.values[0]);
+        if (!command) return interaction.followUp({ content: `Cannot find the commands!`, ephemeral: true });
+        const categoryName = command.category.charAt(0).toUpperCase() + command.category.slice(1);
+        const embed = new EmbedBuilder()
+            .setColor('Blurple')
+            .setAuthor({ name: `${commandCategoryEmoji[command.category]} ${categoryName}`})
+            .setTitle(command.name)
+            .setDescription(`*${command.description}*`)
+            .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/microsoft/310/information_2139-fe0f.png')
+            .addFields([
+                { name: '\u200B', value: '\u200B' }
+            ]);
+        await interaction.followUp({ embeds: [embed], ephemeral: true });
+    };
 };

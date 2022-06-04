@@ -1,7 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, SelectMenuBuilder } = require('discord.js');
-const categoryEmoji = {
-    info: 'ℹ️'
-};
+const categoryEmoji = require('../emoji.json');
 
 module.exports = {
     name: 'help',
@@ -56,9 +54,9 @@ function createInteractionCollector(m) {
             commandData.forEach(command => {
                 menuOptions.push({ label:  command.name, description: command.description, value: command.name });
             });
-            embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             menu.addOptions(menuOptions);
             const actionRow = new ActionRowBuilder().addComponents([menu]);
+            embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
             interaction.editReply({ embeds:[embed], components: [actionRow] });
         }
     });

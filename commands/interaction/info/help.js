@@ -1,7 +1,5 @@
 const { ActionRowBuilder, ButtonBuilder, EmbedBuilder, SelectMenuBuilder } = require('discord.js');
-const categoryEmoji = {
-    info: 'ℹ️'
-};
+const categoryEmoji = require('../emoji.json');
 
 module.exports = {
     name: 'help',
@@ -46,9 +44,19 @@ function createInteractionCollector(i) {
 
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
-            const commandList = client.slashCommands.filter(cmd => cmd.category === value).map(command => `\`${command.name}\``).join(', ');
+            const commandData = client.commands.filter(cmd => cmd.category === value);
+            const commandList = commandData.map(command => `\`${command.name}\``).join(', ');
+            const menu = new SelectMenuBuilder()
+                .setCustomId(value)
+                .setPlaceholder('Select spesific commands for information');
+            const menuOptions = [];
+            commandData.forEach(command => {
+                menuOptions.push({ label:  command.name, description: command.description, value: command.name });
+            });
+            menu.addOptions(menuOptions);
+            const actionRow = new ActionRowBuilder().addComponents([menu]);
             embed.setTitle(`${categoryEmoji[value]} ${categoryName} Commands`).setDescription(commandList);
-            interaction.editReply({ embeds:[embed] });
+            interaction.editReply({ embeds:[embed], components: [actionRow] });
         }
     });
     collector.on('end', () => {
