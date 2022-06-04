@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'Choose a commands list from the buttons below | ❌ for exit' })
+            .setFooter({ text: 'Choose a list from the buttons below | ❌ for exit' })
             .setFields([]);
         const categories = client.slashCommands.categories.filter(category => category !== 'developer');
         for (const category of categories) {

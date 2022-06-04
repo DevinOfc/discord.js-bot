@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: message.author.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'Choose a commands list from the buttons below | ❌ for exit' })
+            .setFooter({ text: 'Choose a list from the buttons below | ❌ for exit' })
             .setFields([]);
         const categories = client.commands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
@@ -47,7 +47,7 @@ function createInteractionCollector(m) {
     });
     collector.on('collect', async(interaction) => {
         await interaction.deferReply({ ephemeral: true });
-        collector.resetTimer({ time: 60000, idle: 60000 });
+        collector.resetTimer({ time: 60000, idle: 30000 });
         const value = interaction.customId;
 
         if(interaction.isButton()){
