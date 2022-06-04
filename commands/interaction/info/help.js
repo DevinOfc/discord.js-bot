@@ -10,7 +10,7 @@ module.exports = {
             .setColor('Blurple')
             .setAuthor({ name: `${client.user.username} Help`, iconURL: interaction.user.displayAvatarURL({ dynamic: true }) })
             .setDescription('This is my available commands list.')
-            .setFooter({ text: 'You also can choose the buttons below | Click ❌ for exit' })
+            .setFooter({ text: 'Also can choose from the buttons below | Click ❌ for exit' })
             .setFields([]);
         const categories = client.slashCommands.categories.filter(category => category !== 'developer');
         for (const category of categories) {
@@ -46,13 +46,13 @@ function createInteractionCollector(i) {
     });
     collector.on('collect', async(interaction) => {
         await interaction.deferReply({ ephemeral: true });
-        collector.resetTimer({ time: 60000, idle: 60000 });
+        collector.resetTimer({ time: 60000, idle: 30000 });
         const value = interaction.customId;
 
         if(interaction.isButton()){
             const categoryName = value.charAt(0).toUpperCase() + value.slice(1);
             const commandData = client.commands.filter(cmd => cmd.category === value);
-            if(!commandData) {
+            if(commandData.size === 0) {
                 await interaction.deferUpdate();
                 if(value == 'help-menu-delete') i.delete().catch(_=>void 0);
                 return (i=null);
