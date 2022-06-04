@@ -13,7 +13,7 @@ module.exports = {
             const commands = client.commands.filter(cmd => cmd.category == category);
             const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
             const commandList = commands.map(command => `\`${command.name}\``).join(', ');
-            embed.data.fields.push({ name: `${categoryName} commands`, value: commandList });
+            embed.data.fields.push({ name: `${categoryName} Commands`, value: commandList });
         };  
         message.reply({ embeds: [embed] });
     }
