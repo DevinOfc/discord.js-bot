@@ -1,27 +1,40 @@
 const fs = require('fs');
-const slash_commands = [];
 
 function commands(client) {
-    // Load slash commands (interaction)
-    fs.readdirSync('./commands/interaction').forEach(file => {
-        const command = require(`../commands/interaction/${file}`);
-        if(!command) throw new Error(`cannot set commands ${file} is invalid!`);
-        if(!command.name) command.name = file.split('.')[0];
-        client.slashCommands.set(command.name, command);
-        slash_commands.push({
-            name: command.name,
-            description: command.description,
-            options: command.options ? command.options : []
-        });
-    });
-    slashCommands(); // Registering slash commands
+    const slash_commands = [];
 
+    client.slashCommands.categories = [];
+    // Load slash commands (interaction)
+    fs.readdirSync('./commands/interaction').forEach(folder => {
+        client.slashCommands.categories.push(folder);
+        const commandFiles = fs.readdirSync(`./commands/interaction/${folder}`);
+        for (const file of commandFiles) {
+            const command = require(`../commands/interaction/${file}`);
+            if(!command) throw new Error(`cannot set commands ${file} is invalid!`);
+            if(!command.name) command.name = file.split('.')[0];
+            command.category = folder.split('.')[0];
+            client.slashCommands.set(command.name, command);
+            slash_commands.push({
+                name: command.name,
+                description: command.description,
+                options: command.options ? command.options : []
+            });
+        };
+    });
+    slashCommands(slash_commands); // Registering slash commands
+
+    client.commands.categories = [];
     // Load commands (message)
-    fs.readdirSync('./commands/message').forEach(file => {
-        const command = require(`../commands/message/${file}`);
-        if (!command) throw new Error(`cannot set commands ${file} is invalid!`);
-        if (!command.name) command.name = file.split('.')[0];
-        client.commands.set(command.name, command);
+    fs.readdirSync('./commands/message').forEach(folder => {
+        client.commands.categories.push(folder);
+        const commandFiles = fs.readdirSync(`./commands/message/${folder}`);
+        for (const file of commandFiles) {
+            const command = require(`../commands/message/${file}`);
+            if (!command) throw new Error(`cannot set commands ${file} is invalid!`);
+            if (!command.name) command.name = file.split('.')[0];
+            command.category = folder.split('.')[0];
+            client.commands.set(command.name, command);
+        };
     });
     console.log('Message Commands: Reloaded...');
 };
@@ -35,7 +48,7 @@ const config = require('../config.js');
  * This is handlers for registering Slash Commands
  * */
 
-async function slashCommands() {
+async function slashCommands(data) {
     const rest = new REST({ version: '10' }).setToken(config.token);
     try {
         console.log('Slash Commands: Refreshing...');
@@ -43,7 +56,7 @@ async function slashCommands() {
             Routes.applicationGuildCommands(
                 config.slashRegister.clientId,
                 config.slashRegister.guildId
-            ), { body: slash_commands }
+            ), { body: data }
         );
     }
     catch(error) {
