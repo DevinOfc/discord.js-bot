@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const EmbedPagination = require('../../utils/embedPagination');
+const chunk = require('../../utils/chunk');
 
 module.exports = {
     name: 'eval',
@@ -16,17 +18,18 @@ module.exports = {
         try{
             let evaled = await eval(code);
             if (typeof evaled !== "string")
-                evaled = await require("util").inspect(evaled, { depth: 0 });
+                evaled = require("util").inspect(evaled, { depth: 0 });
 
             let output = clean(evaled);
-                embed.setDescription("```js\n" + output + "```")
-                embed.setColor('Blue');
+            embed.setDescription("```js\n" + output + "```")
+            embed.setColor('Blue');
 
             if(interaction.replied) {
                 interaction.followUp({ embeds: [embed] });
             }
             else{
-                interaction.reply({ embeds: [embed] });
+                const embeds = chunk.string((output).toString()).map(newOutput => embed.setDescription('```js\n'+newOutput+'```'));
+                new EmbedPagination({ ctx: interaction, embeds }).start();
             };
         } 
         catch (error){
