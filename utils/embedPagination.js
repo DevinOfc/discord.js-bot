@@ -81,10 +81,10 @@ module.exports = class EmbedPagination {
                 collector.resetTimer({ time: this.collector.timeout, idle: this.collector.timeout / 2 });
             });
             collector.on("end", _ => message.edit({components: [new ActionRowBuilder().setComponents(this.buttons.trash(true))]}).catch(_ => void 0));
+            return collector;
         } catch (e) {
             console.log(e)
         }
-        return collector;
     }
 
 }
