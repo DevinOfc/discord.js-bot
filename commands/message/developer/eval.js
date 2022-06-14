@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const EmbedPagination = require('../../utils/embedPagination');
-const chunk = require('../../utils/chunk');
+const EmbedPagination = require('../../../utils/embedPagination');
+const chunk = require('../../../utils/chunk');
 
 module.exports = {
     name: "eval",
