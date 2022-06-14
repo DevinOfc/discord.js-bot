@@ -21,8 +21,8 @@ module.exports = {
                 evaled = require("util").inspect(evaled, { depth: 0 });
 
             let output = clean(evaled);
-            embed.setDescription("```js\n" + output + "```")
-            embed.setColor('Blue');
+                embed.setDescription("```js\n" + output + "```")
+                embed.setColor('Blue');
 
             if(interaction.replied) {
                 interaction.followUp({ embeds: [embed] });
