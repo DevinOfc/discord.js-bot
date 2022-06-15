@@ -23,7 +23,7 @@ module.exports = {
                 embed.setDescription("```js\n" + output + "```")
                 embed.setColor('Blue');
 
-            const embeds = chunk.string(String(output)).map(newOutput => embed.setDescription(newOutput));
+            const embeds = chunk.string(String(output)).map(newOutput => new EmbedBuilder().setDescription('```js\n'+newOutput+'```').setColor('Blue'));
             new EmbedPagination({ ctx: message, embeds }).start();
         } 
         catch (Error){

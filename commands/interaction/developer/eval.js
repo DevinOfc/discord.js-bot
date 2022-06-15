@@ -28,7 +28,7 @@ module.exports = {
                 interaction.followUp({ embeds: [embed] });
             }
             else{
-                const embeds = chunk.string((output).toString()).map(newOutput => embed.setDescription('```js\n'+newOutput+'```'));
+                const embeds = chunk.string((output).toString()).map(newOutput => new EmbedBuilder().setDescription('```js\n'+newOutput+'```').setcolor('Blue'));
                 new EmbedPagination({ ctx: interaction, embeds }).start();
             };
         } 
