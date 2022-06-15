@@ -67,6 +67,7 @@ module.exports = class EmbedPagination {
         }
     }
     async start() {
+        console.log(this);
         try {
             const row = new ActionRowBuilder().addComponents([this.buttons.left(true), this.buttons.trash(), this.buttons.right()]);
             const message = await this.ctx.reply({embeds: [this.embeds[this.page]], components: [row]});
