@@ -15,9 +15,9 @@ module.exports = class EmbedPagination {
         this.collector = options.collector;
 
         this.buttons = {
-            left: (d) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:left").setEmoji({name: "◀️"}).setDisabled(!!d),
-            trash: (d) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:trash").setEmoji({name: "❌"}).setDisabled(!!d),
-            right: (d) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:right").setEmoji({name: "▶️"}).setDisabled(!!d)
+            left: (disable) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:left").setEmoji({name: "◀️"}).setDisabled(!!disable),
+            trash: (disable) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:trash").setEmoji({name: "❌"}).setDisabled(!!disable),
+            right: (disable) => new ButtonBuilder().setStyle(ButtonStyle.Primary).setCustomId("pagination:right").setEmoji({name: "▶️"}).setDisabled(!!disable)
         };
         this.embeds = options.embeds;
     }
@@ -68,7 +68,13 @@ module.exports = class EmbedPagination {
     }
     async start() {
         try {
-            const row = new ActionRowBuilder().addComponents([this.buttons.left(true), this.buttons.trash(), this.buttons.right()]);
+            const row = new ActionRowBuilder();
+
+            if (this.embeds.length === 0) 
+                row.addComponents([this.buttons.trash()]);
+            else
+                row.addComponents([this.buttons.left(true), this.buttons.trash(), this.buttons.right()]);
+
             const message = await this.ctx.reply({embeds: [this.embeds[0]], components: [row]});
             const collector = message.createMessageComponentCollector({
                 componentType: 2,
@@ -86,5 +92,4 @@ module.exports = class EmbedPagination {
             console.log(e);
         }
     }
-
-}
+};
