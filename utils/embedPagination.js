@@ -69,7 +69,7 @@ module.exports = class EmbedPagination {
     async start() {
         try {
             const row = new ActionRowBuilder().addComponents([this.buttons.left(true), this.buttons.trash(), this.buttons.right()]);
-            const message = await this.ctx.reply({embeds: [this.embeds[this.page]], components: [row]});
+            const message = await this.ctx.reply({embeds: [this.embeds[0]], components: [row]});
             const collector = message.createMessageComponentCollector({
                 componentType: 2,
                 time: this.collector.timeout,
@@ -83,7 +83,7 @@ module.exports = class EmbedPagination {
             collector.on("end", _ => message.edit({components: [new ActionRowBuilder().setComponents(this.buttons.trash(true))]}).catch(_ => void 0));
             return collector;
         } catch (e) {
-            console.log(e.embeds);
+            console.log(e);
         }
     }
 
