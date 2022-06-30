@@ -70,7 +70,7 @@ module.exports = class EmbedPagination {
         try {
             const row = new ActionRowBuilder();
 
-            if (this.embeds.length === 0) 
+            if (this.embeds.length === 1) 
                 row.addComponents([this.buttons.trash()]);
             else
                 row.addComponents([this.buttons.left(true), this.buttons.trash(), this.buttons.right()]);
@@ -86,7 +86,10 @@ module.exports = class EmbedPagination {
                 this.controlHandler(b, message);
                 collector.resetTimer({ time: this.collector.timeout, idle: this.collector.timeout / 2 });
             });
-            collector.on("end", _ => message.edit({components: [new ActionRowBuilder().setComponents(this.buttons.trash(true))]}).catch(_ => void 0));
+            collector.on("end", _ => message.edit({components: [(()=>{
+                const oldButton = message.components[0];
+                return new ActionRowBuilder().addComponents(oldButton.components.map(b => ActionRowBuilder.from(b).setDisabled(true))).catch(_ => void 0);
+            })()] }));
             return collector;
         } catch (e) {
             console.log(e);
