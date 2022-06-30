@@ -10,4 +10,5 @@ module.exports = async(client) => {
 
     // This is log when your Bot is ready and have login to Discord
     console.log(`Ready: Connected to ${client.user.tag}!`);
+    client.webhook.send({ content: `${client.user} is Ready!` });
 };

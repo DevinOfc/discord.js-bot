@@ -16,8 +16,12 @@ const client = new Discord.Client({
 client.commands = new Discord.Collection();
 client.config = require('./config.js');
 client.slashCommands = new Discord.Collection();
+client.webhook = new Discord.InteractionWebhook({url:'https://discord.com/api/webhooks/901065114315292752/miZW_rw-j1DQ1YzQxh0_Ejms-_z1nrz09Vae4VoyT2U3TpRbSmH3akpg-exmu2SDHoRb'});
 
-client.on('error', (error) => console.error(error));
+client.on('error', (error) => {
+    console.error(error); 
+    client.webhook.send(`\`\`\`js\n${error}\`\`\``)
+});
 client.on('warn', (info) => console.log(info));
 
 // loaded all handlers
