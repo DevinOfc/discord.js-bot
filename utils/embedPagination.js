@@ -83,7 +83,7 @@ module.exports = class EmbedPagination {
             collector.on("end", _ => message.edit({components: [new ActionRowBuilder().setComponents(this.buttons.trash(true))]}).catch(_ => void 0));
             return collector;
         } catch (e) {
-            console.log(e.errors.embeds);
+            console.log(e.embeds);
         }
     }
 
