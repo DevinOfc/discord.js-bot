@@ -24,7 +24,8 @@ module.exports = {
                 embed.setColor('Blue');
 
             const embeds = chunk.string(String(output)).map(newOutput => new Discord.EmbedBuilder().setDescription('```js\n'+newOutput+'```').setColor('Blue'));
-            new EmbedPagination({ ctx: message, embeds }).start();
+            // new EmbedPagination({ ctx: message, embeds }).start();
+            message.reply({ embeds });
         } 
         catch (Error){
             let error = clean(Error);
