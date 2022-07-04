@@ -12,7 +12,7 @@ module.exports = {
 
         try {
             let code = message.arguments.join(" ");
-            if(!code) return message.reply("Missing arguments! Please include the code.");
+            if(!code) return message.reply("```js\nMissing arguments! Please include the code```");
 
             let evaled = await eval(code);
 
@@ -27,8 +27,8 @@ module.exports = {
             // new EmbedPagination({ ctx: message, embeds }).start();
             message.reply({ embeds });
         } 
-        catch (Error){
-            let error = clean(Error);
+        catch (error){
+                error = clean(error);
                 embed.setDescription("```js\n" + error + "```")
                 embed.setTitle("Error!")
                 embed.setColor("Red");

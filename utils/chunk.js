@@ -7,7 +7,7 @@ module.exports = {
         }
         return chunks;
     },
-    string: (string, size = 3997) => {
+    string: (string, size = 2048) => {
         const numChunks = Math.ceil(string.length / size);
         const chunks = new Array(numChunks)
         for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
